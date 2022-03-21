@@ -9,17 +9,13 @@ ENTRY(_start)
 STACK_EXC_SIZE  = 0x10000;
 STACK_USR_SIZE  = 0x40000;
 HEAP_SIZE       = 0x3000000;
+DRAM_START      = 0x1c000000;
 
 MEMORY {
-    SIG  (r)  : ORIGIN = 0x8ffffffc, LENGTH = 0x0004
-    DRAM (rwx): ORIGIN = 0x90000000, LENGTH = 0x4000000
+    DRAM (rwx): ORIGIN = DRAM_START, LENGTH = 0xf000000
 }
 
 SECTIONS {
-    .signature : {
-        LONG(0x55aa55aa)
-    } > SIG
-
     _ld_image_start = .;
 
     .vector : {
@@ -29,14 +25,6 @@ SECTIONS {
     .stext ALIGN(4) : {
         *(.startup.text)
         *(.startup.text*)
-    } > DRAM
-
-    .sgot ALIGN(4) : {
-        PROVIDE(__sgot_start = .);
-        *(.got)
-        *(.got*)
-        . = ALIGN(4);
-        PROVIDE(__sgot_end = .);
     } > DRAM
 
     .sdata ALIGN(4) : {
