@@ -31,6 +31,8 @@
 #include <watchdog/watchdog.h>
 #include <xboot/machine.h>
 
+struct machine_t * g_mach = NULL;
+
 static struct list_head __machine_list = {
 	.next = &__machine_list,
 	.prev = &__machine_list,
@@ -94,6 +96,8 @@ static struct machine_t * search_machine(const char * name)
 	return NULL;
 }
 
+char logger_buf[512] = "";
+
 bool_t register_machine(struct machine_t * mach)
 {
 	irq_flags_t flags;
@@ -103,6 +107,8 @@ bool_t register_machine(struct machine_t * mach)
 
 	if(search_machine(mach->name))
 		return FALSE;
+
+	g_mach = mach;
 
 	// Chiro: FIXME this line
 	mach->logger(mach, "FIXME!\n", 7);

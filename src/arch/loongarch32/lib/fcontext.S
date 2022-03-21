@@ -40,18 +40,18 @@ ENTRY(jump_fcontext)
 
     /* save registers */
     st.w    $ra, $sp, 4*0
-    st.w    $tp, $sp, 4*1
+    //st.w    $tp, $sp, 4*1
     //st.w    $sp, $sp, 4*2
     //st.w    $a0, $sp, 4*3
     //st.w    $a1, $sp, 4*4
     //st.w    $a2, $sp, 4*5
-    st.w    $a3, $sp, 4*6
-    st.w    $a4, $sp, 4*7
-    st.w    $a5, $sp, 4*8
-    st.w    $a6, $sp, 4*9
-    st.w    $a7, $sp, 4*10
-    st.w    $x,  $sp, 4*11
-    st.w    $fp, $sp, 4*12
+    //st.w    $a3, $sp, 4*6
+    //st.w    $a4, $sp, 4*7
+    //st.w    $a5, $sp, 4*8
+    //st.w    $a6, $sp, 4*9
+    //st.w    $a7, $sp, 4*10
+    //st.w    $x,  $sp, 4*11
+    //st.w    $fp, $sp, 4*12
     st.w    $s0, $sp, 4*13
     st.w    $s1, $sp, 4*14
     st.w    $s2, $sp, 4*15
@@ -71,18 +71,18 @@ ENTRY(jump_fcontext)
 
     /* restore registers */
     ld.w    $ra, $sp, 4*0
-    ld.w    $tp, $sp, 4*1
+    //ld.w    $tp, $sp, 4*1
     //ld.w    $sp, $sp, 4*2
     //ld.w    $a0, $sp, 4*3
     //ld.w    $a1, $sp, 4*4
     //ld.w    $a2, $sp, 4*5
-    ld.w    $a3, $sp, 4*6
-    ld.w    $a4, $sp, 4*7
-    ld.w    $a5, $sp, 4*8
-    ld.w    $a6, $sp, 4*9
-    ld.w    $a7, $sp, 4*10
-    ld.w    $x,  $sp, 4*11
-    ld.w    $fp, $sp, 4*12
+    //ld.w    $a3, $sp, 4*6
+    //ld.w    $a4, $sp, 4*7
+    //ld.w    $a5, $sp, 4*8
+    //ld.w    $a6, $sp, 4*9
+    //ld.w    $a7, $sp, 4*10
+    //ld.w    $x,  $sp, 4*11
+    //ld.w    $fp, $sp, 4*12
     ld.w    $s0, $sp, 4*13
     ld.w    $s1, $sp, 4*14
     ld.w    $s2, $sp, 4*15

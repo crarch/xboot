@@ -87,7 +87,7 @@ void xboot_main(void)
 	task_create(scheduler_self(), "init", NULL, NULL, init_task, NULL, 0, 0);
 
 	/* Scheduler loop */
-	// scheduler_loop();
+	scheduler_loop();
 
-	init_task(NULL, NULL);
+	// init_task(NULL, NULL);
 }

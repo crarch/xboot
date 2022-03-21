@@ -263,6 +263,7 @@ static block_header_t * block_next(const block_header_t * block)
 
 static block_header_t * block_link_next(block_header_t * block)
 {
+	// asm(".word 0x80000001");
 	block_header_t * next = block_next(block);
 	next->prev_phys_block = block;
 	return next;

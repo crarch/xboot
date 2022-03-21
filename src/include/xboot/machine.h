@@ -46,6 +46,23 @@ struct machine_t {
 	int (*keygen)(struct machine_t * mach, const char * msg, void * key);
 };
 
+extern struct machine_t * g_mach;
+#define STOP_MACHINE asm(".word 0x80000000")
+
+extern char logger_buf[512];
+
+#define _Log(...) \
+  do { \
+    if (g_mach) { \
+		  sprintf(logger_buf, __VA_ARGS__); \
+			g_mach->logger(g_mach, logger_buf, strlen(logger_buf) + 1); \
+		} \
+  } while (0)
+
+#define Log(format, ...) \
+    _Log("[%s:%d %s] " format, \
+        __FILE__, __LINE__, __func__, ## __VA_ARGS__)
+
 bool_t register_machine(struct machine_t * mach);
 bool_t unregister_machine(struct machine_t * mach);
 bool_t machine_mmap(struct machine_t * mach, const char * name, virtual_addr_t virt, physical_addr_t phys, physical_size_t size, int type);
