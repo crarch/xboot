@@ -9,8 +9,8 @@
 /*
 struct transfer_t
 {
-	void * fctx;
-	void * priv;
+    void * fctx;
+    void * priv;
 };
 extern struct transfer_t jump_fcontext(void * fctx, void * priv);
 */
@@ -22,34 +22,29 @@ ENTRY(make_fcontext)
     andi  $a0, $a0, 0xff0
 
     /* reserve space for context-data on context-stack */
-	addi.w $a0, $a0, -(FCONTEXT_MAX * 4)
+    addi.w $a0, $a0, -(FCONTEXT_MAX * 4)
 
     /* third arg of make_fcontext() == address of context-function */
-	/* store address as a pc to jump in */
-	st.w $a2, $a0, ((FCONTEXT_MAX-1)*4)
+    /* store address as a pc to jump in */
+    st.w $a2, $a0, ((FCONTEXT_MAX-1)*4)
 
-	/* save address of finish as return-address for context-function */
-	/* will be entered after context-function returns (ra register) */
-    /*  将 symbol 的地址加载到 x[rd]中。 
-        等同于执行 auipc rd, offsetHi，
-        然后是 addi rd, rd, offsetLo。*/
-	/* lla a4, finish */
-    /*pcaddu12i $a4, (finish >> 12)
-    addi.w $a4, $a4, (finish & 0x00000FFF)*/
-	lla $a4, finish
-	st.w $a4, $a0, ((FCONTEXT_MAX-2)*4)
-
-	/* return pointer to context-data (a0) */
-	jr $ra
+    /* save address of finish as return-address for context-function */
+    /* will be entered after context-function returns (ra register) */
+    la.local $a4, finish
+    st.w $a4, $a0, ((FCONTEXT_MAX-2)*4)
+    /* return pointer to context-data (a0) */
+    jr $ra
 finish:
     /* exit code is zero */
-	addi.w $a0, $r0, 0
-	/* exit application */
+    addi.w $a0, $r0, 0
+    /* exit application */
     /*
         auipc x6, offset[32:12]
         jalr x0, x6, offset[11:0]
     */
-	tail exit
+    /* tail exit */
+    /* la.local $a6, $ */
+    b exit
 END(make_fcontext)
 
 
@@ -121,13 +116,13 @@ ENTRY(jump_fcontext)
     ld.w    $ra, $sp, 4*22
 
     /* return transfer_t from jump */
-	/* pass transfer_t as first arg in context function */
+    /* pass transfer_t as first arg in context function */
     addi.w  $a0, $a2, 0
 
-	/* load pc */
-	ld.w    $a2, $sp, 4*23
+    /* load pc */
+    ld.w    $a2, $sp, 4*23
 
-	/* restore stack */
+    /* restore stack */
     addi.w  $sp, $r0, (FCONTEXT_MAX * 4)
 
     jr $a2
