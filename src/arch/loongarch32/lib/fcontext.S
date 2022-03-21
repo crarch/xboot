@@ -16,7 +16,6 @@ extern struct transfer_t jump_fcontext(void * fctx, void * priv);
 */
 
 ENTRY(make_fcontext)
-    .word 0x80000000
     /* shift address in a0 (allocated stack) to lower 16 byte boundary */
     /* andi.w  $a0, $a0, ~0xf */
     andi  $a0, $a0, 0xff0
@@ -56,6 +55,8 @@ ENTRY(jump_fcontext)
     /* prepare stack */
     addi.w  $sp, $sp, -(FCONTEXT_MAX * 4)
 
+    jirl $r0, $a0, 0
+
     /* save registers */
     st.w    $ra, $sp, 4*0
     st.w    $tp, $sp, 4*1
@@ -85,10 +86,10 @@ ENTRY(jump_fcontext)
     st.w    $ra, $sp, 4*23
 
     /* store sp (pointing to context-data) in a2 */
-    addi.w  $a2, $sp, 0
+    move  $a2, $sp
 
     /* restore sp (pointing to context-data) from a0 */
-    addi.w  $sp, $a0, 0
+    move  $sp, $a0
 
     /* restore registers */
     ld.w    $ra, $sp, 4*0
