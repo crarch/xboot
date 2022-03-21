@@ -3,8 +3,8 @@
  * Copyright(c) 2021 Sanpe <sanpeqf@gmail.com>
  */
 
-#ifndef __CSKY_ATOMIC_H__
-#define __CSKY_ATOMIC_H__
+#ifndef __LOONGARCH32_ATOMIC_H__
+#define __LOONGARCH32_ATOMIC_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -72,4 +72,4 @@ static inline int atomic_cmp_exchange(atomic_t * a, int o, int n)
 }
 #endif
 
-#endif /* __CSKY_ATOMIC_H__ */
+#endif /* __LOONGARCH32_ATOMIC_H__ */

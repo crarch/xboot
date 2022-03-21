@@ -3,15 +3,15 @@
  * Copyright(c) 2021 Sanpe <sanpeqf@gmail.com>
  */
 
-#ifndef __CSKY_BARRIER_H__
-#define __CSKY_BARRIER_H__
+#ifndef __LOONGARCH32_BARRIER_H__
+#define __LOONGARCH32_BARRIER_H__
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /* Read and write memory barrier */
-#define mb()		asm volatile ("sync\n":::"memory")
+#define mb()
 /* Read memory barrier */
 #define rmb()		mb()
 /* Write memory barrier */
@@ -28,4 +28,4 @@ extern "C" {
 }
 #endif
 
-#endif /* __CSKY_BARRIER_H__ */
+#endif /* __LOONGARCH32_BARRIER_H__ */

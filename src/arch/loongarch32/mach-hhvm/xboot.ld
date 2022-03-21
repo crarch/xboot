@@ -3,7 +3,7 @@
  * Copyright(c) 2021 Sanpe <1512819690@qq.com>
  */
 
-OUTPUT_ARCH(csky)
+OUTPUT_ARCH(loongarch32)
 ENTRY(_start)
 
 STACK_EXC_SIZE  = 0x10000;
@@ -133,4 +133,3 @@ SECTIONS {
     } > DRAM
 }
 
-ASSERT(__preload_end <= ORIGIN(DRAM) + 0x2000, "Setup too big!");

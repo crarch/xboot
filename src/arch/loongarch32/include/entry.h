@@ -3,8 +3,8 @@
  * Copyright(c) 2021 Sanpe <sanpeqf@gmail.com>
  */
 
-#ifndef __CSKY_ENTRY_H__
-#define __CSKY_ENTRY_H__
+#ifndef __LOONGARCH32_ENTRY_H__
+#define __LOONGARCH32_ENTRY_H__
 
 #define usr_sp  ss0
 #define exc_sp  ss1
@@ -102,4 +102,4 @@
 3:
 .endm
 
-#endif  /* __CSKY_ENTRY_H__ */
+#endif  /* __LOONGARCH32_ENTRY_H__ */

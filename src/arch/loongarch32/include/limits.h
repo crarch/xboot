@@ -3,8 +3,8 @@
  * Copyright(c) 2021 Sanpe <sanpeqf@gmail.com>
  */
 
-#ifndef __CSKY_LIMITS_H__
-#define __CSKY_LIMITS_H__
+#ifndef __LOONGARCH32_LIMITS_H__
+#define __LOONGARCH32_LIMITS_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -63,4 +63,4 @@ extern "C" {
 }
 #endif
 
-#endif /* __CSKY_LIMITS_H__ */
+#endif /* __LOONGARCH32_LIMITS_H__ */

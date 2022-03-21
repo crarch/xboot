@@ -3,8 +3,8 @@
  * Copyright(c) 2021 Sanpe <sanpeqf@gmail.com>
  */
 
-#ifndef __CSKY_SPINLOCK_H__
-#define __CSKY_SPINLOCK_H__
+#ifndef __LOONGARCH32_SPINLOCK_H__
+#define __LOONGARCH32_SPINLOCK_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -57,4 +57,4 @@ static inline void arch_spin_unlock(spinlock_t * lock)
 }
 #endif
 
-#endif /* __CSKY_SPINLOCK_H__ */
+#endif /* __LOONGARCH32_SPINLOCK_H__ */

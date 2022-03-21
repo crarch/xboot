@@ -3,8 +3,8 @@
  * Copyright(c) 2021 Sanpe <sanpeqf@gmail.com>
  */
 
-#ifndef __CSKY_TYPES_H__
-#define __CSKY_TYPES_H__
+#ifndef __LOONGARCH32_TYPES_H__
+#define __LOONGARCH32_TYPES_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -55,4 +55,4 @@ typedef struct {
 }
 #endif
 
-#endif /* __CSKY_TYPES_H__ */
+#endif /* __LOONGARCH32_TYPES_H__ */

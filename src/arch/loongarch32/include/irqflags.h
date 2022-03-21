@@ -3,38 +3,38 @@
  * Copyright(c) 2021 Sanpe <sanpeqf@gmail.com>
  */
 
-#ifndef __CSKY_IRQFLAGS_H__
-#define __CSKY_IRQFLAGS_H__
+#ifndef __LOONGARCH32_IRQFLAGS_H__
+#define __LOONGARCH32_IRQFLAGS_H__
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #include <types.h>
-#include <csky.h>
+#include <loongarch32.h>
 
 static inline void arch_local_irq_enable(void)
 {
-	asm volatile("psrset ee, ie\n":::"memory");
+	// asm volatile("psrset ee, ie\n":::"memory");
 }
 
 static inline void arch_local_irq_disable(void)
 {
-	asm volatile("psrclr ie\n":::"memory");
+	// asm volatile("psrclr ie\n":::"memory");
 }
 
 static inline irq_flags_t arch_local_irq_save(void)
 {
-	unsigned long flags;
+	unsigned long flags = 0;
 
-	flags = mfcr("psr");
-	asm volatile("psrclr ie\n":::"memory");
+	// flags = mfcr("psr");
+	// asm volatile("psrclr ie\n":::"memory");
 	return flags;
 }
 
 static inline void arch_local_irq_restore(irq_flags_t flags)
 {
-	mtcr("psr", flags);
+	// mtcr("psr", flags);
 }
 
 #define local_irq_enable()			do { arch_local_irq_enable(); } while(0)
@@ -46,4 +46,4 @@ static inline void arch_local_irq_restore(irq_flags_t flags)
 }
 #endif
 
-#endif /* __CSKY_IRQFLAGS_H__ */
+#endif /* __LOONGARCH32_IRQFLAGS_H__ */

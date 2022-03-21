@@ -3,8 +3,8 @@
  * Copyright(c) 2021 Sanpe <sanpeqf@gmail.com>
  */
 
-#ifndef __CSKY_H__
-#define __CSKY_H__
+#ifndef __LOONGARCH32_H__
+#define __LOONGARCH32_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -14,14 +14,16 @@ extern "C" {
 #include <bits.h>
 
 struct regs {
-    uint32_t psr, pc;
-    uint32_t sp, r1;
-    uint32_t a0, a1, a2;
-    uint32_t a3, a4, a5;
-    uint32_t l0, l1, l2;
-    uint32_t l3, l4, l5;
-    uint32_t gb, lr;
-} __packed;
+    uint32_t pc;
+    uint32_t r0, ra, 
+        tp, sp, 
+        a0, a1, a2, a3, a4, a5, a6, a7, 
+        t1, t2, t3, t4, t5, t6, t7, t8, 
+        x, fp, 
+        s0, s1, s2, s3, s4, s5, s6, s7, s8;
+} __attribute__((packed));
+
+#if 0
 
 #define mfcr(reg) ({            \
     unsigned int tmp;           \
@@ -128,6 +130,8 @@ struct regs {
 #define MSA_DIRTY           BIT(2)
 #define MSA_VAILD           BIT(1)
 
+#endif // 0
+
 extern void proc_idle(void);
 extern void proc_halt(void);
 
@@ -135,4 +139,4 @@ extern void proc_halt(void);
 }
 #endif
 
-#endif /* __CSKY_H__ */
+#endif /* __LOONGARCH32_H__ */

@@ -3,15 +3,15 @@
  * Copyright(c) 2021 Sanpe <sanpeqf@gmail.com>
  */
 
-#ifndef __CSKY_SMP_H__
-#define __CSKY_SMP_H__
+#ifndef __LOONGARCH32_SMP_H__
+#define __LOONGARCH32_SMP_H__
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #include <xconfigs.h>
-#include <csky.h>
+#include <loongarch32.h>
 
 static inline int smp_processor_id(void)
 {
@@ -22,4 +22,4 @@ static inline int smp_processor_id(void)
 }
 #endif
 
-#endif /* __CSKY_SMP_H__ */
+#endif /* __LOONGARCH32_SMP_H__ */

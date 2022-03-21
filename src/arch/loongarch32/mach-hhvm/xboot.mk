@@ -7,12 +7,14 @@ DEFINES		+=
 ASFLAGS		:= -g -ggdb -Wall -D __ASSEMBLY__
 CFLAGS		:= -g -ggdb -Wall
 LDFLAGS		:= -T arch/$(ARCH)/$(MACH)/xboot.ld -nostdlib
-MCFLAGS		:= -mlittle-endian -mcpu=ck610 -Wa,-mcpu=ck610 -fno-tree-vectorize -msoft-float -mdiv
+# MCFLAGS		:= -march=loongarch32 -mabi=ilp32f
+MCFLAGS		:= 
 
 LIBDIRS		:=
 LIBS 		:=
 INCDIRS		:=
-SRCDIRS		:= arch/$(ARCH)/$(MACH)/driver/video
+# SRCDIRS		:= arch/$(ARCH)/$(MACH)/driver/video
+SRCDIRS		:= 
 
 export arch/$(ARCH)/$(MACH)/sys-ccu-flags 		:= -fPIC
 export arch/$(ARCH)/$(MACH)/sys-copyself-flags	:= -fPIC

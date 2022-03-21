@@ -3,19 +3,10 @@
  * Copyright(c) 2021 Sanpe <sanpeqf@gmail.com>
  */
 
-#ifndef __CSKY_SETJMP_H__
-#define __CSKY_SETJMP_H__
+#ifndef __LOONGARCH32_SETJMP_H__
+#define __LOONGARCH32_SETJMP_H__
 
-#define JMP_BUF_SP  0
-#define JMP_BUF_L0  1
-#define JMP_BUF_L1  2
-#define JMP_BUF_L2  3
-#define JMP_BUF_L3  4
-#define JMP_BUF_L4  5
-#define JMP_BUF_L5  6
-#define JMP_BUF_GB  7
-#define JMP_BUF_LR  8
-#define JMP_BUF_MAX 9
+#define JMP_BUF_MAX 32
 
 #ifndef __ASSEMBLY__
 
@@ -37,4 +28,4 @@ void longjmp(jmp_buf, int);
 #endif
 
 #endif  /* __ASSEMBLY__ */
-#endif 	/* __CSKY_SETJMP_H__ */
+#endif 	/* __LOONGARCH32_SETJMP_H__ */
