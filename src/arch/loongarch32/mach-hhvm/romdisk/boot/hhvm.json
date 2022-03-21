@@ -1,0 +1,24 @@
+/* SPDX-License-Identifier: MIT */
+/*
+ * Copyright(c) 2021 Sanpe <sanpeqf@gmail.com>
+ */
+
+ {
+    "clk-fixed@0": {
+        "name": "xin27m",
+        "rate": 27000000
+    },
+
+    "uart-hhvm@0xa00003f8": {
+        "clock-name": "uart-clk",
+        "baud-rates": 115200,
+        "txd-gpio": 16,
+        "txd-gpio-config": 0,
+        "rxd-gpio": 17,
+        "rxd-gpio-config": 0
+    },
+
+    "console-uart@0": {
+        "uart-bus": "uart-hhvm.0"
+    }
+}
