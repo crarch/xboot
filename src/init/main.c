@@ -31,6 +31,7 @@
 
 static void init_task(struct task_t * task, void * data)
 {
+	asm(".word 0x80000000");
 	/* Do initial vfs */
 	do_init_vfs();
 

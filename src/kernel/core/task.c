@@ -442,6 +442,7 @@ void do_init_sched(void)
 void scheduler_loop(void)
 {
 	struct scheduler_t * sched = scheduler_self();
+	// if (!sched) asm(".word 0x80000000");
 	spin_lock(&sched->lock);
 	struct task_t * next = scheduler_next_ready_task(sched);
 	if(likely(next))

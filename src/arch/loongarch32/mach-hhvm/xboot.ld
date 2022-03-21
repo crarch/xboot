@@ -22,19 +22,19 @@ SECTIONS {
         KEEP(*(.vector));
     } > DRAM
 
-    .stext ALIGN(4) : {
+    .stext ALIGN(8) : {
         *(.startup.text)
         *(.startup.text*)
     } > DRAM
 
-    .sdata ALIGN(4) : {
+    .sdata ALIGN(8) : {
         *(.startup.data)
         *(.startup.data*)
     } > DRAM
 
     __preload_end = .;
 
-    .text ALIGN(4) : {
+    .text ALIGN(8) : {
         *(.text)
         *(.text*)
     } > DRAM
@@ -81,28 +81,28 @@ SECTIONS {
         PROVIDE(__romdisk_end = .);
     } > DRAM
 
-    .rodata ALIGN(4) : {
+    .rodata ALIGN(8) : {
         *(.rodata)
         *(.rodata*)
     } > DRAM
 
-    .data ALIGN(4) : {
+    .data ALIGN(8) : {
         *(.data)
         *(.data*)
     } > DRAM
 
     _ld_image_end = .;
 
-    .bss ALIGN(4) (NOLOAD) : {
+    .bss ALIGN(8) (NOLOAD) : {
         PROVIDE(__bss_start = .);
         *(.bss)
         *(.bss*)
         *(COMMON)
-        . = ALIGN(4);
+        . = ALIGN(8);
         PROVIDE(__bss_end = .);
     } > DRAM
 
-    .stack ALIGN(4) (NOLOAD) : {
+    .stack ALIGN(8) (NOLOAD) : {
         PROVIDE(__stack_start = .);
         PROVIDE(__stack_usr_start = .);
         . += STACK_USR_SIZE;
@@ -113,10 +113,10 @@ SECTIONS {
         PROVIDE(__stack_end = .);
     } > DRAM
 
-    .heap ALIGN(4) (NOLOAD) : {
+    .heap ALIGN(8) (NOLOAD) : {
         PROVIDE(__heap_start = .);
         . += HEAP_SIZE;
-        . = ALIGN(4);
+        . = ALIGN(8);
         PROVIDE(__heap_end = .);
     } > DRAM
 }

@@ -7,6 +7,7 @@
 #include <setjmp.h>
 
 ENTRY(setjmp)
+    .word 0x80000000
     st.w    $ra, $a0, 4*0
     st.w    $tp, $a0, 4*1
     st.w    $sp, $a0, 4*2
@@ -35,6 +36,7 @@ ENTRY(setjmp)
 END(setjmp)
 
 ENTRY(longjmp)
+    .word 0x80000000
     ld.w    $ra, $a0, 4*0
     ld.w    $tp, $a0, 4*1
     ld.w    $sp, $a0, 4*2
@@ -59,6 +61,7 @@ ENTRY(longjmp)
     ld.w    $s8, $a0, 4*21
     
     addi.w  $a0, $a1, 0
+    bnez $a1, 1f
     li      $a0, 1
 1:  jr      $ra
 END(longjmp)
