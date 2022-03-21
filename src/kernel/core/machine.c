@@ -104,7 +104,10 @@ bool_t register_machine(struct machine_t * mach)
 	if(search_machine(mach->name))
 		return FALSE;
 
+	// Chiro: FIXME this line
+	mach->logger(mach, "FIXME!\n", 7);
 	mach->kobj = kobj_alloc_directory(mach->name);
+	mach->logger(mach, "FIX DONE!\n", 10);
 	kobj_add_regular(mach->kobj, "description", machine_read_description, NULL, mach);
 	kobj_add_regular(mach->kobj, "mmap", machine_read_mmap, NULL, mach);
 	kobj_add_regular(mach->kobj, "uniqueid", machine_read_uniqueid, NULL, mach);
@@ -115,6 +118,7 @@ bool_t register_machine(struct machine_t * mach)
 	init_list_head(&mach->mmap);
 	list_add_tail(&mach->list, &__machine_list);
 	spin_unlock_irqrestore(&__machine_lock, flags);
+	// asm(".word 0x80010000");
 
 	if(!__machine && (mach->detect(mach) > 0))
 	{

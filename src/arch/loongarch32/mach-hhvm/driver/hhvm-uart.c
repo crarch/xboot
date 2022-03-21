@@ -140,7 +140,7 @@ static struct driver_t uart_hhvm = {
 
 static __init void uart_hhvm_driver_init(void)
 {
-    STOP_CPU;
+    // STOP_CPU;
     register_driver(&uart_hhvm);
 }
 

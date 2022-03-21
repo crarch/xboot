@@ -8,6 +8,7 @@
 
 static int mach_detect(struct machine_t * mach)
 {
+	// STOP_CPU;
 	// machine_mmap(mach, "sseg1", SSEG1_BASE, 0x00000000, SZ_256M, 0);
 	return 1;
 }
@@ -69,8 +70,8 @@ static struct machine_t hhvm = {
 
 static __init void hhvm_machine_init(void)
 {
-	STOP_CPU;
 	register_machine(&hhvm);
+	// STOP_CPU;
 }
 
 static __exit void hhvm_machine_exit(void)

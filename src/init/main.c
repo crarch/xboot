@@ -31,33 +31,48 @@
 
 static void init_task(struct task_t * task, void * data)
 {
-	asm(".word 0x80000000");
+	write8(0xa0000000 + 0x03f8, 't');
+	write8(0xa0000000 + 0x03f8, 'e');
+	write8(0xa0000000 + 0x03f8, 's');
+	write8(0xa0000000 + 0x03f8, 't');
+	write8(0xa0000000 + 0x03f8, '\n');
+	// asm(".word 0x80000004");
+
 	/* Do initial vfs */
 	do_init_vfs();
+	// asm(".word 0x80000005");
 
 	/* Do initial calls */
 	do_initcalls();
+	asm(".word 0x80000006");
 
 	/* Do initial setting */
 	do_init_setting();
+	asm(".word 0x80000007");
 
 	/* Do show logo */
 	do_show_logo();
+	asm(".word 0x80000008");
 
 	/* Do play audio */
 	do_play_audio();
+	asm(".word 0x80000009");
 
 	/* Do auto mount */
 	do_auto_mount();
+	asm(".word 0x8000000a");
 
 	/* Do idle task */
 	do_idle_task();
+	asm(".word 0x8000000b");
 
 	/* Do shell task */
 	do_shell_task();
+	asm(".word 0x8000000c");
 
 	/* Do auto boot */
 	do_auto_boot();
+	asm(".word 0x8000000d");
 }
 
 void xboot_main(void)
@@ -72,5 +87,7 @@ void xboot_main(void)
 	task_create(scheduler_self(), "init", NULL, NULL, init_task, NULL, 0, 0);
 
 	/* Scheduler loop */
-	scheduler_loop();
+	// scheduler_loop();
+
+	init_task(NULL, NULL);
 }

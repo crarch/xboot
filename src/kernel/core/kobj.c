@@ -41,16 +41,25 @@ static struct kobj_t * __kobj_alloc(const char * name, enum kobj_type_t type, ko
 	kobj = malloc(sizeof(struct kobj_t));
 	if(!kobj)
 		return NULL;
-
+	// asm(".word 0x81000000");
 	kobj->name = strdup(name);
+	// asm(".word 0x82000000");
 	kobj->type = type;
+	// asm(".word 0x83000000");
 	kobj->parent = kobj;
+	// asm(".word 0x84000000");
 	init_list_head(&kobj->entry);
+	// asm(".word 0x85000000");
 	init_list_head(&kobj->children);
+	// asm(".word 0x86000000");
 	spin_lock_init(&kobj->lock);
+	// asm(".word 0x87000000");
 	kobj->read = read;
+	// asm(".word 0x88000000");
 	kobj->write = write;
+	// asm(".word 0x89000000");
 	kobj->priv = priv;
+	// asm(".word 0x8a000000");
 
 	return kobj;
 }
@@ -120,7 +129,10 @@ struct kobj_t * kobj_search_directory_with_create(struct kobj_t * parent, const 
 
 struct kobj_t * kobj_alloc_directory(const char * name)
 {
-	return __kobj_alloc(name, KOBJ_TYPE_DIR, NULL, NULL, NULL);
+	// return __kobj_alloc(name, KOBJ_TYPE_DIR, NULL, NULL, NULL);
+	struct kobj_t * res = __kobj_alloc(name, KOBJ_TYPE_DIR, NULL, NULL, NULL);
+	// asm(".word 0x8b000000");
+	return res;
 }
 
 struct kobj_t * kobj_alloc_regular(const char * name, kobj_read_t read, kobj_write_t write, void * priv)

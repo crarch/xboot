@@ -172,9 +172,9 @@ static inline void scheduler_switch_task(struct scheduler_t * sched, struct task
 {
 	struct task_t * running = sched->running;
 	sched->running = task;
-	if ((size_t)task->fctx == 0xffffffe0) asm(".word 0x80000000");
+	// if ((size_t)task->fctx == 0xffffffe0) asm(".word 0x80000000");
 	struct transfer_t from = jump_fcontext(task->fctx, running);
-	asm(".word 0x80000000");
+	// asm(".word 0x80000000");
 	struct task_t * t = (struct task_t *)from.priv;
 	t->fctx = from.fctx;
 }
@@ -440,6 +440,8 @@ void do_init_sched(void)
 		spin_unlock(&sched->lock);
 	}
 }
+
+#include <stdio.h>
 
 void scheduler_loop(void)
 {

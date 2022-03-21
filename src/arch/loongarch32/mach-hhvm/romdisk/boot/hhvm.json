@@ -1,14 +1,4 @@
-/* SPDX-License-Identifier: MIT */
-/*
- * Copyright(c) 2021 Sanpe <sanpeqf@gmail.com>
- */
-
- {
-    "clk-fixed@0": {
-        "name": "xin27m",
-        "rate": 27000000
-    },
-
+{
     "uart-hhvm@0xa00003f8": {
         "clock-name": "uart-clk",
         "baud-rates": 115200,

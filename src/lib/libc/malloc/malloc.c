@@ -588,7 +588,6 @@ static inline void * tlsf_add_pool(void * tlsf, void * mem, size_t bytes)
 	block_set_free(block);
 	block_set_prev_used(block);
 	block_insert(tlsf_cast(control_t*, tlsf), block);
-
 	next = block_link_next(block);
 	block_set_size(next, 0);
 	block_set_used(next);
