@@ -38,7 +38,10 @@ static struct kobj_t * __kobj_alloc(const char * name, enum kobj_type_t type, ko
 	if(!name)
 		return NULL;
 
+	// Log("sizeof(kobj_t) = %d", sizeof(struct kobj_t));
+
 	kobj = malloc(sizeof(struct kobj_t));
+	Log("kobj = 0x%08x", kobj);	
 	if(!kobj)
 		return NULL;
 	// asm(".word 0x81000000");
@@ -129,6 +132,7 @@ struct kobj_t * kobj_search_directory_with_create(struct kobj_t * parent, const 
 
 struct kobj_t * kobj_alloc_directory(const char * name)
 {
+	Log("kobj_alloc_directory(%s)", name);
 	// return __kobj_alloc(name, KOBJ_TYPE_DIR, NULL, NULL, NULL);
 	struct kobj_t * res = __kobj_alloc(name, KOBJ_TYPE_DIR, NULL, NULL, NULL);
 	// asm(".word 0x8b000000");
