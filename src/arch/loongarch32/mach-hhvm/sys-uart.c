@@ -8,7 +8,7 @@
 void __startup sys_uart_putc(char ch)
 {
     // while (!(read32(SER_BASE + GX6605S_UART_STA) & GX6605S_UART_STA_THRE));
-    write32(CONFIG_SERIAL_MMIO, ch);
+    write32(UART_BASE + 0x00, ch);
     STOP_CPU;
 }
 
