@@ -49,15 +49,16 @@ struct machine_t {
 extern struct machine_t * g_mach;
 #define STOP_MACHINE asm(".word 0x80000000")
 
-extern char logger_buf[512];
+// #define USE_LOG
 
-#define _Log(...) \
-  do { \
-    if (g_mach) { \
-		  sprintf(logger_buf, __VA_ARGS__); \
-			g_mach->logger(g_mach, logger_buf, strlen(logger_buf) + 1); \
-		} \
-  } while (0)
+#ifdef USE_LOG
+	#define _Log(...) \
+		do { \
+				printf(__VA_ARGS__); \
+		} while (0)
+#else
+	#define _Log(...)
+#endif
 
 #define Log(format, ...) \
     _Log("[%s:%d %s] " format, \

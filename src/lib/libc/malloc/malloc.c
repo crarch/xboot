@@ -10,6 +10,7 @@
 #include <malloc.h>
 #include <xboot/kobj.h>
 #include <xboot/module.h>
+#include <xboot/machine.h>
 
 /*
  * Some macros.
@@ -195,8 +196,10 @@ static size_t block_get_size(const block_header_t * block)
 
 static void block_set_size(block_header_t * block, size_t size)
 {
+	// Log("block_set_size(size=%08x)", size);
 	const size_t oldsize = block->size;
 	block->size = size | (oldsize & (block_header_free_bit | block_header_prev_free_bit));
+	Log("Set new block size: %08x", (size | (oldsize & (block_header_free_bit | block_header_prev_free_bit))));
 }
 
 static int block_is_last(const block_header_t * block)
@@ -206,16 +209,22 @@ static int block_is_last(const block_header_t * block)
 
 static int block_is_free(const block_header_t * block)
 {
+	Log("block->size = %x", block->size);
+	if (!(block->size & block_header_free_bit)) {
+		asm(".word 0x80000000");
+	}
 	return tlsf_cast(int, block->size & block_header_free_bit);
 }
 
 static void block_set_free(block_header_t * block)
 {
+	Log("block set free %p", block);
 	block->size |= block_header_free_bit;
 }
 
 static void block_set_used(block_header_t * block)
 {
+	Log("block set used %p", block);
 	block->size &= ~block_header_free_bit;
 }
 
@@ -263,9 +272,9 @@ static block_header_t * block_next(const block_header_t * block)
 
 static block_header_t * block_link_next(block_header_t * block)
 {
-	// asm(".word 0x80000001");
 	block_header_t * next = block_next(block);
 	next->prev_phys_block = block;
+	Log("get next: %p", next);
 	return next;
 }
 
@@ -767,6 +776,7 @@ static inline void tlsf_info(void * tlsf, size_t * mused, size_t * mfree)
 
 void * mm_create(void * mem, size_t bytes)
 {
+	Log("mm_create(%08x, %08x)", (size_t)mem, bytes);
 	return tlsf_create_with_pool(mem, bytes);
 }
 

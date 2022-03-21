@@ -31,13 +31,6 @@
 
 static void init_task(struct task_t * task, void * data)
 {
-	write8(0xa0000000 + 0x03f8, 't');
-	write8(0xa0000000 + 0x03f8, 'e');
-	write8(0xa0000000 + 0x03f8, 's');
-	write8(0xa0000000 + 0x03f8, 't');
-	write8(0xa0000000 + 0x03f8, '\n');
-	// asm(".word 0x80000004");
-
 	/* Do initial vfs */
 	do_init_vfs();
 	// asm(".word 0x80000005");

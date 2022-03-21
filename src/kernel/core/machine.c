@@ -96,8 +96,6 @@ static struct machine_t * search_machine(const char * name)
 	return NULL;
 }
 
-char logger_buf[512] = "";
-
 bool_t register_machine(struct machine_t * mach)
 {
 	irq_flags_t flags;
@@ -110,10 +108,12 @@ bool_t register_machine(struct machine_t * mach)
 
 	g_mach = mach;
 
+	Log("make a big news: %p", malloc(1));
+
 	// Chiro: FIXME this line
-	mach->logger(mach, "FIXME!\n", 7);
+	// mach->logger(mach, "FIXME!\n", 7);
 	mach->kobj = kobj_alloc_directory(mach->name);
-	mach->logger(mach, "FIX DONE!\n", 10);
+	// mach->logger(mach, "FIX DONE!\n", 10);
 	kobj_add_regular(mach->kobj, "description", machine_read_description, NULL, mach);
 	kobj_add_regular(mach->kobj, "mmap", machine_read_mmap, NULL, mach);
 	kobj_add_regular(mach->kobj, "uniqueid", machine_read_uniqueid, NULL, mach);

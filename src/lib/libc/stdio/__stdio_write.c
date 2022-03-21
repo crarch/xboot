@@ -37,6 +37,11 @@ ssize_t __stdio_write(FILE * f, const unsigned char * buf, size_t size)
 	size_t bufsz;
 	int i, ret;
 
+	extern struct machine_t * g_mach;
+	void mach_logger(struct machine_t * mach, const char * buf, int count);
+	mach_logger(g_mach, (const char *)buf, size);
+	// asm(".word 0x80000000");
+
 	if (!f->write)
 		return EINVAL;
 

@@ -8,8 +8,8 @@
 
 static int mach_detect(struct machine_t * mach)
 {
-	// STOP_CPU;
-	// machine_mmap(mach, "sseg1", SSEG1_BASE, 0x00000000, SZ_256M, 0);
+	STOP_CPU;
+	machine_mmap(mach, "sseg1", 0x1c000000, 0x00000000, 0xf000000, 0);
 	return 1;
 }
 
@@ -37,10 +37,12 @@ static void mach_cleanup(struct machine_t * mach)
 {
 }
 
-static void mach_logger(struct machine_t * mach, const char * buf, int count)
+// static void mach_logger(struct machine_t * mach, const char * buf, int count)
+void mach_logger(struct machine_t * mach, const char * buf, int count)
 {
 	while(count--)
 		sys_uart_putc(*buf++);
+	sys_uart_putc('\0');
 }
 
 static const char * mach_uniqueid(struct machine_t * mach)

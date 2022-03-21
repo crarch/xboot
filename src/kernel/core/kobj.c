@@ -132,7 +132,7 @@ struct kobj_t * kobj_search_directory_with_create(struct kobj_t * parent, const 
 
 struct kobj_t * kobj_alloc_directory(const char * name)
 {
-	Log("kobj_alloc_directory(%s)", name);
+	// Log("kobj_alloc_directory(%s)", name);
 	// return __kobj_alloc(name, KOBJ_TYPE_DIR, NULL, NULL, NULL);
 	struct kobj_t * res = __kobj_alloc(name, KOBJ_TYPE_DIR, NULL, NULL, NULL);
 	// asm(".word 0x8b000000");
