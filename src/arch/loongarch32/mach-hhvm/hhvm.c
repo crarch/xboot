@@ -47,7 +47,7 @@ void mach_logger(struct machine_t * mach, const char * buf, int count)
 
 static const char * mach_uniqueid(struct machine_t * mach)
 {
-	return NULL;
+	return "HHVM";
 }
 
 static int mach_keygen(struct machine_t * mach, const char * msg, void * key)

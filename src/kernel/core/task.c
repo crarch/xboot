@@ -174,7 +174,7 @@ static inline void scheduler_switch_task(struct scheduler_t * sched, struct task
 	sched->running = task;
 	// asm(".word 0x80000005");
 	struct transfer_t from = jump_fcontext(task->fctx, running);
-	asm(".word 0x80000000");
+	// asm(".word 0x80000000");
 	struct task_t * t = (struct task_t *)from.priv;
 	t->fctx = from.fctx;
 }
@@ -449,10 +449,10 @@ void scheduler_loop(void)
 	struct scheduler_t * sched = scheduler_self();
 	spin_lock(&sched->lock);
 	struct task_t * next = scheduler_next_ready_task(sched);
-	Log("got next: %p %s", next, next->name);
-	void *p = malloc(0x40);
-	Log("test malloc: %p", p);
-	free(p);
+	// Log("got next: %p %s", next, next->name);
+	// void *p = malloc(0x40);
+	// Log("test malloc: %p", p);
+	// free(p);
 	if(likely(next))
 	{
 		sched->running = next;
