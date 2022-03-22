@@ -173,6 +173,7 @@ static inline void scheduler_switch_task(struct scheduler_t * sched, struct task
 	struct task_t * running = sched->running;
 	sched->running = task;
 	// asm(".word 0x80000005");
+	Log("Jump to %08x", task->fctx);
 	struct transfer_t from = jump_fcontext(task->fctx, running);
 	// asm(".word 0x80000000");
 	struct task_t * t = (struct task_t *)from.priv;
@@ -230,6 +231,7 @@ static void fcontext_entry(struct transfer_t from)
 		next->start = ktime_to_ns(ktime_get());
 		spin_unlock(&sched->lock);
 		scheduler_switch_task(sched, next);
+		STOP_MACHINE;
 	}
 	else
 	{
@@ -354,6 +356,7 @@ void task_nice(struct task_t * task, int nice)
 
 void task_yield(void)
 {
+	// Log("task_yield");
 	struct scheduler_t * sched = scheduler_self();
 	struct task_t * self = task_self();
 	uint64_t now = ktime_to_ns(ktime_get());
@@ -460,6 +463,7 @@ void scheduler_loop(void)
 		next->start = ktime_to_ns(ktime_get());
 		spin_unlock(&sched->lock);
 		scheduler_switch_task(sched, next);
+		STOP_MACHINE;
 	}
 	else
 	{

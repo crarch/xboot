@@ -25,6 +25,12 @@ hhvm_write(struct hhvm_device *gdev, unsigned int reg, uint32_t val)
     write32(gdev->base + reg, val);
 }
 
+static inline void
+hhvm_write8(struct hhvm_device *gdev, unsigned int reg, uint32_t val)
+{
+    write8(gdev->base + reg, val);
+}
+
 static ssize_t uart_hhvm_get(struct uart_t *uart, int *baud, int *data, int *parity, int *stop)
 {
     struct hhvm_device *gdev = uart->priv;
@@ -44,19 +50,29 @@ static ssize_t uart_hhvm_set(struct uart_t *uart, int baud, int data, int parity
 
 static ssize_t uart_hhvm_read(struct uart_t *uart, u8_t *buf, size_t count)
 {
-    // struct hhvm_device *gdev = uart->priv;
-    size_t xfer;
+    // // struct hhvm_device *gdev = uart->priv;
+    // size_t xfer;
 
-    // for (xfer = 0; xfer <= count; ++xfer) {
-    //     if (!(hhvm_read(gdev, hhvm_UART_STA) & hhvm_UART_STA_DR))
-    //         break;
-    //     *buf++ = hhvm_read(gdev, HHVM_UART_DAT) & 0xff;
-    // }
+    // // for (xfer = 0; xfer <= count; ++xfer) {
+    // //     if (!(hhvm_read(gdev, hhvm_UART_STA) & hhvm_UART_STA_DR))
+    // //         break;
+    // //     *buf++ = hhvm_read(gdev, HHVM_UART_DAT) & 0xff;
+    // // }
 
+    // // return xfer;
+    // // ignore read
+    // *buf = '\n';
+    // // for (xfer = 0; xfer <= count; ++xfer) *buf++ = '\0';
+    // for (xfer = 1; xfer <= count; ++xfer) *buf++ = '\0';
     // return xfer;
-    // ignore read
-    for (xfer = 0; xfer <= count; ++xfer) *buf++ = '\0';
-    return xfer;
+    static size_t first = 1;
+    if (first) {
+        first = 0;
+        *buf++ = '\n';
+        *buf++ = '\0';
+        return 1;
+    }
+    return 0;
 }
 
 static ssize_t uart_hhvm_write(struct uart_t *uart, const u8_t *buf, size_t count)
@@ -65,7 +81,8 @@ static ssize_t uart_hhvm_write(struct uart_t *uart, const u8_t *buf, size_t coun
     size_t xfer;
 
     for (xfer = 0; xfer < count; ++xfer) {
-        hhvm_write(gdev, 0, *buf++);
+        // hhvm_write(gdev, 0, *buf++);
+        hhvm_write8(gdev, 0, *buf++);
     }
 
     return xfer;

@@ -134,14 +134,14 @@ bool_t register_machine(struct machine_t * mach)
 #if !defined(CONFIG_NO_LOG) || !(CONFIG_NO_LOG > 0)
 		if(mach->logger)
 		{
-			char uri[1024];
-			snprintf(uri, sizeof(uri), "https://xboot.org/search?uniqueid=%s", machine_uniqueid());
-			char * s = qrcgen_tostring(uri, 1);
-			if(s)
-			{
-				mach->logger(mach, s, strlen(s));
-				free(s);
-			}
+			// char uri[1024];
+			// snprintf(uri, sizeof(uri), "https://xboot.org/search?uniqueid=%s", machine_uniqueid());
+			// char * s = qrcgen_tostring(uri, 1);
+			// if(s)
+			// {
+			// 	mach->logger(mach, s, strlen(s));
+			// 	free(s);
+			// }
 			for(int i = 0; i < 5; i++)
 			{
 				mach->logger(mach, xboot_character_logo_string(i), strlen(xboot_character_logo_string(i)));
