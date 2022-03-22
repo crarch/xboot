@@ -42,7 +42,7 @@ void mach_logger(struct machine_t * mach, const char * buf, int count)
 {
 	while(count--)
 		sys_uart_putc(*buf++);
-	sys_uart_putc('\0');
+	// sys_uart_putc('\0');
 }
 
 static const char * mach_uniqueid(struct machine_t * mach)

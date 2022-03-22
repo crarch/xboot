@@ -79,13 +79,13 @@ void xboot_main(void)
 	/* Create init task */
 	task_create(scheduler_self(), "init", NULL, NULL, init_task, NULL, 0, 0);
 
-	void *p = malloc(1);
+	// void *p = malloc(1);
 
-	Log("in main: %p", p);
+	// Log("in main: %p", p);
 
-	free(p);
+	// free(p);
 
-	Log("in main: free done.");
+	// Log("in main: free done.");
 
 	/* Scheduler loop */
 	// scheduler_loop();

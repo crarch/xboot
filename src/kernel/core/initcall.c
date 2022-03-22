@@ -45,12 +45,12 @@ void do_initcalls(void)
 		// asm(".word 0x80000020");
 		// if ((size_t)*call & 0x10000000) asm(".word 0x80000050");
 		// if ((size_t)call & 0x10000000) asm(".word 0x80000050");
-		Log("0x%08x", (size_t)*call);
+		// Log("0x%08x", (size_t)*call);
 		(*call)();
 		// asm(".word 0x80000030");
 		call++;
 	}
-	asm(".word 0x80000040");
+	// asm(".word 0x80000040");
 }
 
 void do_exitcalls(void)

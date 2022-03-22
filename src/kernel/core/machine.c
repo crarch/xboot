@@ -108,9 +108,9 @@ bool_t register_machine(struct machine_t * mach)
 
 	g_mach = mach;
 
-	Log("Hello?");
+	// Log("Hello?");
 
-	Log("make a big news: %p", malloc(0));
+	// Log("make a big news: %p", malloc(0));
 
 	// Chiro: FIXME this line
 	// mach->logger(mach, "FIXME!\n", 7);

@@ -61,7 +61,7 @@ extern struct machine_t * g_mach;
 #endif
 
 #define Log(format, ...) \
-    _Log("[%s:%d %s] " format, \
+    _Log("[%s:%d %s] " format "\n", \
         __FILE__, __LINE__, __func__, ## __VA_ARGS__)
 
 bool_t register_machine(struct machine_t * mach);

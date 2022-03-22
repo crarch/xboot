@@ -41,7 +41,7 @@ static struct kobj_t * __kobj_alloc(const char * name, enum kobj_type_t type, ko
 	// Log("sizeof(kobj_t) = %d", sizeof(struct kobj_t));
 
 	kobj = malloc(sizeof(struct kobj_t));
-	Log("kobj = 0x%08x", kobj);	
+	// Log("kobj = 0x%08x", kobj);	
 	if(!kobj)
 		return NULL;
 	// asm(".word 0x81000000");
