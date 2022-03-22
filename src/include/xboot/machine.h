@@ -49,7 +49,7 @@ struct machine_t {
 extern struct machine_t * g_mach;
 #define STOP_MACHINE asm(".word 0x80000000")
 
-// #define USE_LOG
+#define USE_LOG
 
 #ifdef USE_LOG
 	#define _Log(...) \

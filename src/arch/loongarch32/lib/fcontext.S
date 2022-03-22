@@ -34,68 +34,203 @@ END(make_fcontext)
  * jump to a context: 
  */
 ENTRY(jump_fcontext)
-    
     /* prepare stack */
     addi.w  $sp, $sp, -(FCONTEXT_MAX * 4)
 
+    /* save sp copy */
+    move    $t0, $sp
+
     /* save registers */
-    st.w    $ra, $sp, 4*0
-    //st.w    $tp, $sp, 4*1
-    //st.w    $sp, $sp, 4*2
-    //st.w    $a0, $sp, 4*3
-    //st.w    $a1, $sp, 4*4
-    //st.w    $a2, $sp, 4*5
-    //st.w    $a3, $sp, 4*6
-    //st.w    $a4, $sp, 4*7
-    //st.w    $a5, $sp, 4*8
-    //st.w    $a6, $sp, 4*9
-    //st.w    $a7, $sp, 4*10
-    //st.w    $x,  $sp, 4*11
-    //st.w    $fp, $sp, 4*12
-    st.w    $s0, $sp, 4*13
-    st.w    $s1, $sp, 4*14
-    st.w    $s2, $sp, 4*15
-    st.w    $s3, $sp, 4*16
-    st.w    $s4, $sp, 4*17
-    st.w    $s5, $sp, 4*18
-    st.w    $s6, $sp, 4*19
-    st.w    $s7, $sp, 4*20
-    st.w    $s8, $sp, 4*21
-    st.w    $ra, $sp, 4*22
+    st.w    $s0, $sp, 0
+    addi.w  $sp, $sp, 4
+    st.w    $s1, $sp, 0
+    addi.w  $sp, $sp, 4
+    st.w    $s2, $sp, 0
+    addi.w  $sp, $sp, 4
+    st.w    $s3, $sp, 0
+    addi.w  $sp, $sp, 4
+    st.w    $s4, $sp, 0
+    addi.w  $sp, $sp, 4
+    st.w    $s5, $sp, 0
+    addi.w  $sp, $sp, 4
+    st.w    $s6, $sp, 0
+    addi.w  $sp, $sp, 4
+    st.w    $s7, $sp, 0
+    addi.w  $sp, $sp, 4
+    st.w    $s8, $sp, 0
+    addi.w  $sp, $sp, 4
+    st.w    $ra, $sp, 0
 
-    st.w    $ra, $sp, 4*23
+    /*
+    fst.s   $f0, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f1, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f2, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f3, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f4, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f5, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f6, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f7, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f8, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f9, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f10, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f11, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f12, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f13, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f14, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f15, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f16, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f17, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f18, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f19, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f20, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f21, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f22, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f23, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f24, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f25, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f26, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f27, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f28, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f29, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f30, $sp, 0
+    addi.w  $sp, $sp, 4
+    fst.s   $f31, $sp, 0
+    addi.w  $sp, $sp, 4
+    */
 
-    move  $a2, $sp
+    /* reload sp */
+    move    $sp, $t0
 
-    move  $sp, $a0
+    st.w    $ra, $sp, 4*(FCONTEXT_MAX-1)
+
+    move    $a2, $sp
+
+    move    $sp, $a0
+
+    move    $t0, $sp
 
     /* restore registers */
-    ld.w    $ra, $sp, 4*0
-    //ld.w    $tp, $sp, 4*1
-    //ld.w    $sp, $sp, 4*2
-    //ld.w    $a0, $sp, 4*3
-    //ld.w    $a1, $sp, 4*4
-    //ld.w    $a2, $sp, 4*5
-    //ld.w    $a3, $sp, 4*6
-    //ld.w    $a4, $sp, 4*7
-    //ld.w    $a5, $sp, 4*8
-    //ld.w    $a6, $sp, 4*9
-    //ld.w    $a7, $sp, 4*10
-    //ld.w    $x,  $sp, 4*11
-    //ld.w    $fp, $sp, 4*12
-    ld.w    $s0, $sp, 4*13
-    ld.w    $s1, $sp, 4*14
-    ld.w    $s2, $sp, 4*15
-    ld.w    $s3, $sp, 4*16
-    ld.w    $s4, $sp, 4*17
-    ld.w    $s5, $sp, 4*18
-    ld.w    $s6, $sp, 4*19
-    ld.w    $s7, $sp, 4*20
-    ld.w    $s8, $sp, 4*21
-    ld.w    $ra, $sp, 4*22
+    ld.w    $s0, $sp, 0
+    addi.w  $sp, $sp, 4
+    ld.w    $s1, $sp, 0
+    addi.w  $sp, $sp, 4
+    ld.w    $s2, $sp, 0
+    addi.w  $sp, $sp, 4
+    ld.w    $s3, $sp, 0
+    addi.w  $sp, $sp, 4
+    ld.w    $s4, $sp, 0
+    addi.w  $sp, $sp, 4
+    ld.w    $s5, $sp, 0
+    addi.w  $sp, $sp, 4
+    ld.w    $s6, $sp, 0
+    addi.w  $sp, $sp, 4
+    ld.w    $s7, $sp, 0
+    addi.w  $sp, $sp, 4
+    ld.w    $s8, $sp, 0
+    addi.w  $sp, $sp, 4
+    ld.w    $ra, $sp, 0
+
+    /*
+    fld.s   $f0, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f1, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f2, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f3, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f4, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f5, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f6, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f7, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f8, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f9, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f10, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f11, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f12, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f13, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f14, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f15, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f16, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f17, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f18, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f19, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f20, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f21, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f22, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f23, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f24, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f25, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f26, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f27, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f28, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f29, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f30, $sp, 0
+    addi.w  $sp, $sp, 4
+    fld.s   $f31, $sp, 0
+    addi.w  $sp, $sp, 4
+    */
+
+    move    $sp, $t0
 
     /* load pc */
-    ld.w    $a2, $sp, 4*23
+    ld.w    $a2, $sp, 4*(FCONTEXT_MAX-1)
 
     /* restore stack */
     addi.w  $sp, $sp, (FCONTEXT_MAX * 4)

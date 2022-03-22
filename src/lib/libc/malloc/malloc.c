@@ -189,42 +189,83 @@ static int tlsf_fls_sizet(size_t size)
 #define tlsf_fls_sizet		tlsf_fls
 #endif
 
+void serial_put_char(char ch) {
+	write8(0xa0000000 + 0x03f8, ch);
+}
+
+#if 0
+
+void data_out(const char *tag, uint32_t data) {
+	static const char *chars = "0123456789abcdef";
+
+	serial_put_char('\t');
+	serial_put_char('[');
+	const char *p = tag;
+	while (*p)
+		serial_put_char(*p++);
+	serial_put_char(']');
+	serial_put_char(' ');
+
+	for (int i = 0; i < 8; i++) {
+		serial_put_char(chars[(data & 0xF0000000) >> 28]);
+		data = data << 4;
+	}
+	serial_put_char('\0');
+}
+
+#else
+void data_out(const char *tag, uint32_t data) {}
+#endif
+
 static size_t block_get_size(const block_header_t * block)
 {
-	return block->size & ~(block_header_free_bit | block_header_prev_free_bit);
+	data_out("block_get_size block @", block);
+	data_out("block_get_size block->size", block->size);
+	// return block->size & ~(block_header_free_bit | block_header_prev_free_bit);
+	size_t res = block->size & ~(block_header_free_bit | block_header_prev_free_bit);
+	data_out("block_get_size res", res);
+	return res;
 }
 
 static void block_set_size(block_header_t * block, size_t size)
 {
+	data_out("set size", size);
 	// Log("block_set_size(size=%08x)", size);
 	const size_t oldsize = block->size;
 	block->size = size | (oldsize & (block_header_free_bit | block_header_prev_free_bit));
-	Log("Set new block size: %08x", (size | (oldsize & (block_header_free_bit | block_header_prev_free_bit))));
+	// Log("Set new block size: %08x", (size | (oldsize & (block_header_free_bit | block_header_prev_free_bit))));
 }
 
 static int block_is_last(const block_header_t * block)
 {
+	data_out("block is last", block->size);
 	return (block_get_size(block) == 0);
 }
 
 static int block_is_free(const block_header_t * block)
 {
-	Log("block->size = %x", block->size);
-	if (!(block->size & block_header_free_bit)) {
-		asm(".word 0x80000000");
-	}
+	// Log("block->size = %x", block->size);
+	data_out(" is_free @", block);
+	data_out(" is_free size", block->size);
+	// if (!(block->size & block_header_free_bit)) {
+	// 	asm(".word 0x80000000");
+	// }
 	return tlsf_cast(int, block->size & block_header_free_bit);
 }
 
 static void block_set_free(block_header_t * block)
 {
-	Log("block set free %p", block);
+	data_out("set_free @", block);
+	data_out("set_free size", block->size);
+	// Log("block set free %p", block);
 	block->size |= block_header_free_bit;
 }
 
 static void block_set_used(block_header_t * block)
 {
-	Log("block set used %p", block);
+	data_out("set_used @", block);
+	data_out("set_used size", block->size);
+	// Log("block set used %p", block);
 	block->size &= ~block_header_free_bit;
 }
 
@@ -235,12 +276,16 @@ static int block_is_prev_free(const block_header_t * block)
 
 static void block_set_prev_free(block_header_t * block)
 {
+	data_out("set_prev_free #0", block->size);
 	block->size |= block_header_prev_free_bit;
+	data_out("set_prev_free #1", block->size);
 }
 
 static void block_set_prev_used(block_header_t * block)
 {
+	data_out("set_prev_used #0", block->size);
 	block->size &= ~block_header_prev_free_bit;
+	data_out("set_prev_used #1", block->size);
 }
 
 static block_header_t * block_from_ptr(const void * ptr)
@@ -274,7 +319,7 @@ static block_header_t * block_link_next(block_header_t * block)
 {
 	block_header_t * next = block_next(block);
 	next->prev_phys_block = block;
-	Log("get next: %p", next);
+	// Log("get next: %p", next);
 	return next;
 }
 
@@ -378,6 +423,7 @@ static block_header_t * search_suitable_block(control_t * control, int * fli, in
 
 static void remove_free_block(control_t * control, block_header_t * block, int fl, int sl)
 {
+	// Log("remove_free_block(block->size = %08x)", block->size);
 	block_header_t * prev = block->prev_free;
 	block_header_t * next = block->next_free;
 	tlsf_assert(prev && "prev_free field can not be null");
@@ -419,6 +465,7 @@ static void insert_free_block(control_t * control, block_header_t * block, int f
 
 static void block_remove(control_t * control, block_header_t * block)
 {
+	data_out("block remove", block_get_size(block));
 	int fl, sl;
 	mapping_insert(block_get_size(block), &fl, &sl);
 	remove_free_block(control, block, fl, sl);
@@ -426,6 +473,7 @@ static void block_remove(control_t * control, block_header_t * block)
 
 static void block_insert(control_t * control, block_header_t * block)
 {
+	data_out("block insert", block_get_size(block));
 	int fl, sl;
 	mapping_insert(block_get_size(block), &fl, &sl);
 	insert_free_block(control, block, fl, sl);
@@ -438,6 +486,7 @@ static int block_can_split(block_header_t * block, size_t size)
 
 static block_header_t * block_split(block_header_t * block, size_t size)
 {
+	data_out("block split", size);
 	block_header_t * remaining = offset_to_block(block_to_ptr(block), size - block_header_overhead);
 	const size_t remain_size = block_get_size(block) - (size + ALIGN_SIZE);
 
@@ -560,6 +609,8 @@ static void * block_prepare_used(control_t * control, block_header_t * block, si
 		block_mark_as_used(block);
 		p = block_to_ptr(block);
 	}
+	data_out("block_prepare_used size", size);
+	data_out("block_prepare_used p @", p);
 	return p;
 }
 
@@ -648,6 +699,7 @@ static inline void * tlsf_get(void * mem)
 
 static inline void * tlsf_malloc(void * tlsf, size_t size)
 {
+	data_out("tlsf_malloc", size);
 	control_t * control = tlsf_cast(control_t *, tlsf);
 	const size_t adjust = adjust_request_size(size, ALIGN_SIZE);
 	block_header_t * block = block_locate_free(control, adjust);
@@ -776,7 +828,7 @@ static inline void tlsf_info(void * tlsf, size_t * mused, size_t * mfree)
 
 void * mm_create(void * mem, size_t bytes)
 {
-	Log("mm_create(%08x, %08x)", (size_t)mem, bytes);
+	// Log("mm_create(%08x, %08x)", (size_t)mem, bytes);
 	return tlsf_create_with_pool(mem, bytes);
 }
 
@@ -831,6 +883,8 @@ static spinlock_t __heap_lock = SPIN_LOCK_INIT();
 
 static void * __malloc(size_t size)
 {
+	if (size)
+	data_out("__malloc", size);
 	void * m;
 
 	if(__heap_pool)

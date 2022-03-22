@@ -172,9 +172,9 @@ static inline void scheduler_switch_task(struct scheduler_t * sched, struct task
 {
 	struct task_t * running = sched->running;
 	sched->running = task;
-	// if ((size_t)task->fctx == 0xffffffe0) asm(".word 0x80000000");
+	// asm(".word 0x80000005");
 	struct transfer_t from = jump_fcontext(task->fctx, running);
-	// asm(".word 0x80000000");
+	asm(".word 0x80000000");
 	struct task_t * t = (struct task_t *)from.priv;
 	t->fctx = from.fctx;
 }
@@ -264,6 +264,7 @@ struct task_t * task_create(struct scheduler_t * sched, const char * name, const
 		return NULL;
 
 	stack = malloc(stksz);
+	Log("get task stack = %08x", stack);
 	if(!stack)
 	{
 		free(task);
@@ -299,6 +300,8 @@ struct task_t * task_create(struct scheduler_t * sched, const char * name, const
 	sched->weight += nice_to_weight[nice];
 	scheduler_enqueue_task(sched, task);
 	spin_unlock(&sched->lock);
+
+	Log("task created: %s, fctx: %08x, stack: [%08x, %08x]", task->name, task->fctx, task->stack, task->stack + task->stksz);
 
 	return task;
 }
@@ -441,13 +444,15 @@ void do_init_sched(void)
 	}
 }
 
-#include <stdio.h>
-
 void scheduler_loop(void)
 {
 	struct scheduler_t * sched = scheduler_self();
 	spin_lock(&sched->lock);
 	struct task_t * next = scheduler_next_ready_task(sched);
+	Log("got next: %p %s", next, next->name);
+	void *p = malloc(0x40);
+	Log("test malloc: %p", p);
+	free(p);
 	if(likely(next))
 	{
 		sched->running = next;
